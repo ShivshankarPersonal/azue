@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<!--
+Created using JS Bin
+http://jsbin.com
+
+Copyright (c) 2016 by jtrussell (http://jsbin.com/febexe/3/edit)
+
+Released under the MIT license: http://jsbin.mit-license.org
+-->
+<meta name="robots" content="noindex">
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>JS Bin</title>
+  <link rel="stylesheet" href="http://rawgit.com/iVantage/angular-ivh-treeview/master/dist/ivh-treeview.css">
+  <link rel="stylesheet" href="http://rawgit.com/iVantage/angular-ivh-treeview/master/dist/ivh-treeview-theme-basic.css">
+</head>
+<body ng-app="bin">
+  
+  <div ng-controller="DemoCtrl as demo">
+    <h3>Change Handlers</h3>
+    
+    <p>This treeview has a change handler registered. It will be called whenever a node changes status as a result
+    of a direct click.</p>
+    
+    <p ng-if="demo.lastChangedNode">
+      The last changed node was <strong>{{demo.lastChangedNode.label}}</strong>.
+    </p>
+    
+    <p ng-hide="demo.lastChangedNode">
+      You haven't changed any nodes yet.
+    </p>
+    
+    <div ivh-treeview="demo.stuff"
+         ivh-treeview-expand-to-depth="1"
+         ivh-treeview-on-cb-change="demo.changeCallback(ivhNode)">
+    </div>
+  </div>
+
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.8/angular.js"></script>
+  <script src="http://rawgit.com/iVantage/angular-ivh-treeview/master/dist/ivh-treeview.js"></script>
+<script id="jsbin-javascript">
+var stuff = [{
+  label: 'Hats',
+  children: [
+    {label: 'Flat cap'},
+    {label: 'Fedora'},
+    {label: 'Baseball'},
+    {label: 'Top hat'},
+    {label: 'Gatsby'}
+  ]
+},{
+  label: 'Pens',
+  selected: true,
+  children: [
+    {label: 'Fountain'},
+    {label: 'Gel ink'},
+    {label: 'Roller ball'},
+    {label: 'Fiber tip'},
+    {label: 'Ballpoint'}
+  ]
+},{
+  label: 'Whiskey',
+  children: [
+    {label: 'Irish'},
+    {label: 'Scotch'},
+    {label: 'Rye'},
+    {label: 'Tennessee'},
+    {label: 'Bourbon'}
+  ]
+}];
+
+var app = angular.module('bin', ['ivh.treeview']);
+
+app.config(function(ivhTreeviewOptionsProvider) {
+ ivhTreeviewOptionsProvider.set({
+   defaultSelectedState: false,
+   validate: true
+ });
+});
+
+app.controller('DemoCtrl', function() {
+  var self = this;
+  
+  self.stuff = stuff;
+  
+  self.changeCallback = function(node) {
+    self.lastChangedNode = node;
+  };
+});
+</script>
+</body>
+</html>
